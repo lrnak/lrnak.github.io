@@ -128,6 +128,11 @@
         document.location.reload();
     }
 
+    function updateScore() {
+        const scoreElement = document.getElementById("score");
+        scoreElement.textContent = "Score: " + score;
+    }
+
     function update() {
         if (!gamePaused) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -135,9 +140,7 @@
             moveSnake();
             drawSnake();
             drawFood();
-
-            const scoreElement = document.getElementById("score");
-            scoreElement.textContent = "Score: " + score;
+            updateScore();
         } else {
             ctx.fillStyle = "black";
             ctx.font = "30px Arial";
@@ -148,20 +151,19 @@
         setTimeout(update, speed);
     }
 
-    function changeDirection(newDx, newDy) {
-        dx = newDx;
-        dy = newDy;
-    }
-
     document.addEventListener("keydown", event => {
         if (event.key === "ArrowUp" && dy === 0) {
-            changeDirection(0, -1);
+            dy = -1;
+            dx = 0;
         } else if (event.key === "ArrowDown" && dy === 0) {
-            changeDirection(0, 1);
+            dy = 1;
+            dx = 0;
         } else if (event.key === "ArrowLeft" && dx === 0) {
-            changeDirection(-1, 0);
+            dx = -1;
+            dy = 0;
         } else if (event.key === "ArrowRight" && dx === 0) {
-            changeDirection(1, 0);
+            dx = 1;
+            dy = 0;
         } else if (event.key === " ") {
             gamePaused = !gamePaused;
         } else if (event.key === "m" || event.key === "M") {
@@ -189,20 +191,30 @@
                 // Movimiento horizontal
                 if (dx > 0) {
                     // Derecha
-                    changeDirection(1, 0);
+                    dx = 1;
+                    dy = 0;
                 } else {
                     // Izquierda
-                    changeDirection(-1, 0);
+                    dx = -1;
+                    dy = 0;
                 }
             } else {
                 // Movimiento vertical
                 if (dy > 0) {
                     // Abajo
-                    changeDirection(0, 1);
+                    dx = 0;
+                    dy = 1;
                 } else {
                     // Arriba
-                    changeDirection(0, -1);
+                    dx = 0;
+                    dy = -1;
                 }
+            }
+
+            // Aplicar el movimiento
+            if ((dx !== 0 && dx !== -this.dx) || (dy !== 0 && dy !== -this.dy)) {
+                this.dx = dx;
+                this.dy = dy;
             }
         }
     }
@@ -210,5 +222,4 @@
     generateFood();
     update();
 </script>
-</body>
-</html>
+</
