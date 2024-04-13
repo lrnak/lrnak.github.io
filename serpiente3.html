@@ -172,23 +172,18 @@
     // Detectar si el dispositivo es táctil
     if ('ontouchstart' in window) {
         // Dispositivo táctil
-        let touchStartX = 0;
-        let touchStartY = 0;
-
         canvas.addEventListener("touchstart", handleTouchStart, false);
-        canvas.addEventListener("touchmove", handleTouchMove, false);
 
         function handleTouchStart(event) {
-            touchStartX = event.touches[0].clientX;
-            touchStartY = event.touches[0].clientY;
-        }
+            const touchX = event.touches[0].clientX;
+            const touchY = event.touches[0].clientY;
 
-        function handleTouchMove(event) {
-            const touchEndX = event.touches[0].clientX;
-            const touchEndY = event.touches[0].clientY;
+            // Calcular la dirección del toque en relación con la cabeza de la serpiente
+            const headX = snake[0].x * gridSize;
+            const headY = snake[0].y * gridSize;
 
-            const dx = touchEndX - touchStartX;
-            const dy = touchEndY - touchStartY;
+            const dx = touchX - headX;
+            const dy = touchY - headY;
 
             if (Math.abs(dx) > Math.abs(dy)) {
                 // Movimiento horizontal
@@ -217,4 +212,3 @@
 </script>
 </body>
 </html>
-
